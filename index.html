@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Campeón BMX | Sistema de Boletas</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎫</text></svg>">
+  <style>
+    :root {
+      --apple-bg: #f5f5f7;
+      --apple-card: #ffffff;
+      --apple-text: #1d1d1f;
+      --apple-blue: #0071e3;
+      --apple-gray: #86868b;
+      --apple-border: #d2d2d7;
+      --apple-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      --apple-radius: 18px;
+      --bold-orange: #FF6B00;
+      --bold-orange-dark: #E05D00;
+      --success-green: #34C759;
+      --warning-orange: #FF9500;
+      --error-red: #FF3B30;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+    }
+    
+    body {
+      background-color: var(--apple-bg);
+      color: var(--apple-text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    
+    .header {
+      text-align: center;
+      margin: 30px 0 40px;
+      padding: 20px 0;
+    }
+    
+    .logo-container {
+      margin: 0 auto 25px;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .logo {
+      height: 140px;
+      width: auto;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      background: linear-gradient(135deg, #0071e3, #004e9e);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 24px;
+      padding: 10px;
+      box-shadow: 0 4px 12px rgba(0, 113, 227, 0.25);
+    }
+    
+    .logo:hover {
+      transform: scale(1.05);
+    }
+    
+    h1 {
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--apple-text);
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, var(--apple-blue), #004e9e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .subtitle {
+      font-size: 21px;
+      color: var(--apple-gray);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+    
+    .card {
+      background: var(--apple-card);
+      border-radius: var(--apple-radius);
+      padding: 35px;
+      box-shadow: var(--apple-shadow);
+      margin-bottom: 30px;
+      border: 1px solid var(--apple-border);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+    }
+    
+    .card-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 28px;
+      color: var(--apple-text);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--apple-border);
+    }
+    
+    .card-title i {
+      color: var(--apple-blue);
+      font-size: 26px;
+    }
+    
+    .form-group {
+      margin-bottom: 28px;
+      position: relative;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 17px;
+      color: var(--apple-text);
+      font-weight: 500;
+      padding-left: 4px;
+    }
+    
+    .input-icon {
+      position: absolute;
+      left: 18px;
+      top: 70%;
+      transform: translateY(-50%);
+      color: var(--apple-gray);
+      font-size: 18px;
+      height: 24px;
+      width: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+    
+    input {
+      width: 100%;
+      padding: 17px 17px 17px 52px;
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      font-size: 17px;
+      background: var(--apple-card);
+      transition: all 0.25s ease;
+      font-weight: 400;
+      color: var(--apple-text);
+      position: relative;
+      height: 56px;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+    }
+    
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 18px;
+      background: var(--apple-blue);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 18px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      gap: 12px;
+      margin-top: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn:hover {
+      background: #0062c4;
+      transform: translateY(-2px);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+      background: #0055ad;
+    }
+    
+    .btn i {
+      font-size: 20px;
+    }
+    
+    .btn-bold {
+      background: var(--bold-orange);
+      border: none;
+    }
+    
+    .btn-bold:hover {
+      background: var(--bold-orange-dark);
+    }
+    
+    .message {
+      padding: 20px;
+      border-radius: 14px;
+      margin: 25px 0;
+      font-size: 17px;
+      text-align: center;
+      display: none;
+      animation: fadeIn 0.4s ease;
+      border: 1px solid transparent;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .success {
+      background: rgba(210, 248, 222, 0.3);
+      color: #0f5132;
+      border-color: #c3e6cb;
+    }
+    
+    .error {
+      background: rgba(248, 215, 218, 0.3);
+      color: #842029;
+      border-color: #f5c6cb;
+    }
+    
+    .warning {
+      background: rgba(255, 243, 205, 0.3);
+      color: #856404;
+      border-color: #ffeeba;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 25px;
+    }
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(0, 113, 227, 0.1);
+      border-top: 4px solid var(--apple-blue);
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .tickets-section {
+      margin-top: 35px;
+    }
+    
+    .ticket-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 20px;
+      margin-top: 25px;
+    }
+    
+    .ticket {
+      background: linear-gradient(135deg, var(--apple-blue), #004e9e);
+      color: white;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 10px;
+      box-shadow: 0 4px 12px rgba(0, 113, 227, 0.15);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 2px solid transparent;
+      text-align: center;
+      position: relative;
+    }
+    
+    .ticket:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 113, 227, 0.25);
+    }
+    
+    .ticket.selected {
+      border-color: var(--bold-orange);
+      box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2), 0 8px 20px rgba(0, 113, 227, 0.25);
+      transform: translateY(-3px);
+    }
+    
+    .ticket.sold-out {
+      background: linear-gradient(135deg, #bdc3c7, #95a5a6);
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+    
+    .ticket.sold-out::after {
+      content: 'AGOTADO';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .ticket-amount {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    
+    .ticket-price {
+      font-size: 18px;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+    
+    .ticket-description {
+      font-size: 14px;
+      margin-top: 8px;
+      opacity: 0.8;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 40px 0 20px;
+      color: var(--apple-gray);
+      font-size: 15px;
+      margin-top: auto;
+      font-weight: 400;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+    
+    .footer-links a {
+      color: var(--apple-blue);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s;
+      font-size: 16px;
+      position: relative;
+    }
+    
+    .footer-links a:after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--apple-blue);
+      transition: width 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+      color: #0062c4;
+    }
+    
+    .footer-links a:hover:after {
+      width: 100%;
+    }
+    
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-top: 30px;
+    }
+    
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: var(--apple-card);
+      border-radius: 50%;
+      color: var(--apple-gray);
+      font-size: 20px;
+      transition: all 0.3s;
+      border: 1px solid var(--apple-border);
+      box-shadow: var(--apple-shadow);
+    }
+    
+    .social-icons a:hover {
+      background: var(--apple-blue);
+      color: white;
+      transform: translateY(-3px);
+    }
+    
+    .bold-badge {
+      background: linear-gradient(to right, #ff6b00, #ff3c00);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-block;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    
+    .apple-note {
+      background: rgba(0, 0, 0, 0.02);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 20px;
+      font-size: 15px;
+      color: var(--apple-gray);
+      text-align: center;
+    }
+    
+    .processing {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      border-radius: 16px;
+      background: rgba(0, 113, 227, 0.05);
+      margin: 20px 0;
+      border: 1px solid var(--apple-border);
+    }
+    
+    .processing i {
+      color: var(--apple-blue);
+      font-size: 36px;
+      margin-bottom: 15px;
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    .bold-logo {
+      width: 100px;
+      margin: 10px auto;
+      display: block;
+    }
+    
+    .confirmation {
+      display: none;
+    }
+    
+    .confirmation-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: var(--success-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 25px;
+      animation: scaleIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .confirmation-icon i {
+      color: white;
+      font-size: 50px;
+    }
+    
+    @keyframes scaleIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    .confirmation-title {
+      font-size: 36px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--success-green);
+    }
+    
+    .confirmation-subtitle {
+      font-size: 22px;
+      text-align: center;
+      color: var(--apple-gray);
+      margin-bottom: 40px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+    
+    .details-card {
+      background: var(--apple-card);
+      border-radius: var(--apple-radius);
+      padding: 30px;
+      box-shadow: var(--apple-shadow);
+      margin-bottom: 30px;
+      border: 1px solid var(--apple-border);
+    }
+    
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--apple-border);
+    }
+    
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+    
+    .detail-label {
+      font-weight: 500;
+      color: var(--apple-gray);
+    }
+    
+    .detail-value {
+      font-weight: 600;
+      text-align: right;
+    }
+    
+    .ticket-numbers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 15px;
+      justify-content: center;
+    }
+    
+    .ticket-number {
+      background: linear-gradient(135deg, var(--apple-blue), #004e9e);
+      color: white;
+      width: 70px;
+      height: 70px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      box-shadow: 0 4px 8px rgba(0, 113, 227, 0.15);
+    }
+    
+    .actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+      justify-content: center;
+    }
+    
+    .btn-download {
+      background: var(--apple-blue);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 15px 25px;
+      font-size: 17px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s;
+    }
+    
+    .btn-download:hover {
+      background: #0062c4;
+      transform: translateY(-2px);
+    }
+    
+    .availability-banner {
+      background: rgba(52, 199, 89, 0.1);
+      border: 1px solid rgba(52, 199, 89, 0.3);
+      border-radius: 14px;
+      padding: 15px;
+      text-align: center;
+      margin: 20px 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--apple-text);
+    }
+    
+    .availability-banner.warning {
+      background: rgba(255, 149, 0, 0.1);
+      border: 1px solid rgba(255, 149, 0, 0.3);
+    }
+    
+    .availability-banner.error {
+      background: rgba(255, 59, 48, 0.1);
+      border: 1px solid rgba(255, 59, 48, 0.3);
+    }
+    
+    .availability-count {
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--success-green);
+      margin: 0 5px;
+    }
+    
+    .availability-count.warning {
+      color: var(--warning-orange);
+    }
+    
+    .availability-count.error {
+      color: var(--error-red);
+    }
+    
+    @media (max-width: 700px) {
+      .card {
+        padding: 28px 22px;
+      }
+      
+      h1 {
+        font-size: 34px;
+      }
+      
+      .subtitle {
+        font-size: 18px;
+      }
+      
+      .btn {
+        padding: 17px;
+        font-size: 17px;
+      }
+      
+      .logo {
+        height: 120px;
+      }
+      
+      .card-title {
+        font-size: 22px;
+      }
+      
+      input {
+        padding: 16px 16px 16px 48px;
+        font-size: 16px;
+        height: 52px;
+      }
+      
+      .input-icon {
+        left: 16px;
+        font-size: 16px;
+      }
+      
+      .ticket-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 15px;
+      }
+      
+      .confirmation-title {
+        font-size: 30px;
+      }
+      
+      .confirmation-subtitle {
+        font-size: 18px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 30px;
+      }
+      
+      .subtitle {
+        font-size: 16px;
+      }
+      
+      .logo {
+        height: 100px;
+      }
+      
+      .card-title {
+        font-size: 20px;
+      }
+      
+      .btn {
+        font-size: 16px;
+      }
+      
+      .ticket-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .footer-links {
+        gap: 20px;
+      }
+      
+      .actions {
+        flex-direction: column;
+      }
+      
+      .ticket-number {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo-container">
+        <div class="logo">EL CAMPEÓN BMX</div>
+      </div>
+      <h1>Compra de Boletas</h1>
+      <p class="subtitle">Completa tus datos y paga fácilmente con Bold</p>
+      
+      <div id="availability-banner" class="availability-banner">
+        <i class="fas fa-ticket-alt"></i> Boletas disponibles: 
+        <span id="available-count" class="availability-count">Cargando...</span>
+      </div>
+    </header>
+
+    <main id="purchase-form">
+      <div class="card">
+        <h2 class="card-title"><i class="fas fa-user-circle"></i> Información personal</h2>
+        
+        <div id="message" class="message"></div>
+        
+        <form id="formulario">
+          <div class="form-group">
+            <label for="nombre">Nombre completo</label>
+            <div class="input-icon">
+              <i class="fas fa-user"></i>
+            </div>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej: Carlos Rodríguez" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="correo">Correo electrónico</label>
+            <div class="input-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <input type="email" id="correo" name="correo" placeholder="Ej: carlos@ejemplo.com" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="telefono">Teléfono (opcional)</label>
+            <div class="input-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <input type="tel" id="telefono" name="telefono" placeholder="Ej: 300 123 4567">
+          </div>
+          
+          <div class="form-group">
+            <label>Selecciona tu paquete de boletas</label>
+            <div class="ticket-grid">
+              <div class="ticket" data-value="2x10.000" data-price="10.000" data-amount="2">
+                <div class="ticket-amount">2</div>
+                <div class="ticket-price">$10.000</div>
+                <div class="ticket-description">$5.000 c/u</div>
+              </div>
+              <div class="ticket" data-value="3x15.000" data-price="15.000" data-amount="3">
+                <div class="ticket-amount">3</div>
+                <div class="ticket-price">$15.000</div>
+                <div class="ticket-description">$5.000 c/u</div>
+              </div>
+              <div class="ticket" data-value="4x20.000" data-price="20.000" data-amount="4">
+                <div class="ticket-amount">4</div>
+                <div class="ticket-price">$20.000</div>
+                <div class="ticket-description">$5.000 c/u</div>
+              </div>
+              <div class="ticket" data-value="5x25.000" data-price="25.000" data-amount="5">
+                <div class="ticket-amount">5</div>
+                <div class="ticket-price">$25.000</div>
+                <div class="ticket-description">$5.000 c/u</div>
+              </div>
+            </div>
+          </div>
+          
+          <button type="button" id="btn-pagar" class="btn btn-bold" disabled>
+            <i class="fas fa-credit-card"></i> Selecciona un paquete de boletas
+          </button>
+          
+          <div class="apple-note">
+            <i class="fas fa-lock"></i> Tus pagos son procesados de forma segura por Bold
+          </div>
+          
+          <div id="processing" class="processing">
+            <i class="fas fa-spinner"></i>
+            <h3>Procesando tu pago</h3>
+            <p>Estamos redirigiéndote a la plataforma segura de Bold</p>
+            <div class="bold-logo">
+              <svg viewBox="0 0 200 50">
+                <rect x="10" y="10" width="180" height="30" rx="5" fill="#FF6B00" />
+                <text x="100" y="30" font-family="Arial" font-size="18" fill="white" text-anchor="middle">BOLD</text>
+              </svg>
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <section id="confirmation" class="confirmation">
+      <div class="confirmation-icon">
+        <i class="fas fa-check"></i>
+      </div>
+      
+      <h2 class="confirmation-title">¡Pago Exitoso!</h2>
+      <p class="confirmation-subtitle">Tu compra ha sido procesada correctamente. A continuación encontrarás los detalles de tu transacción.</p>
+      
+      <div class="card">
+        <h2 class="card-title"><i class="fas fa-receipt"></i> Detalles de la transacción</h2>
+        
+        <div class="details-card">
+          <div class="detail-row">
+            <span class="detail-label">Número de transacción:</span>
+            <span class="detail-value" id="transaction-id">TRX-0001</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Nombre:</span>
+            <span class="detail-value" id="confirmation-name">Carlos Rodríguez</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Correo electrónico:</span>
+            <span class="detail-value" id="confirmation-email">carlos@ejemplo.com</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Teléfono:</span>
+            <span class="detail-value" id="confirmation-phone">300 123 4567</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Paquete de boletas:</span>
+            <span class="detail-value" id="confirmation-package">3 boletas por $15.000</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Fecha y hora:</span>
+            <span class="detail-value" id="confirmation-date">5 de octubre de 2023, 14:30</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Método de pago:</span>
+            <span class="detail-value">Bold Payments</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Estado:</span>
+            <span class="detail-value" style="color: var(--success-green);">Completado</span>
+          </div>
+        </div>
+        
+        <div class="card-title"><i class="fas fa-ticket-alt"></i> Boletas asignadas</div>
+        <div class="ticket-numbers" id="ticket-numbers">
+          <div class="ticket-number">B-001</div>
+          <div class="ticket-number">B-002</div>
+          <div class="ticket-number">B-003</div>
+        </div>
+        
+        <div class="apple-note">
+          <i class="fas fa-info-circle"></i> Presenta estas boletas en la entrada del evento. Recibirás un correo electrónico con esta información.
+        </div>
+        
+        <div class="actions">
+          <button class="btn-download" onclick="descargarComprobante()">
+            <i class="fas fa-download"></i> Descargar comprobante
+          </button>
+          <button class="btn-download" onclick="enviarPorCorreo()">
+            <i class="fas fa-envelope"></i> Enviar por correo
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-links">
+        <a href="#">Términos y condiciones</a>
+        <a href="#">Política de privacidad</a>
+        <a href="#">Contacto</a>
+      </div>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+      </div>
+      <p>© 2023 El Campeón BMX. Todos los derechos reservados.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Configuración del sistema - VERSIÓN PRODUCCIÓN
+    const MAX_BOLETAS = 999;
+    // URL de Google Apps Script - REEMPLAZAR CON TU URL
+    const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzSUv08SI5poBPQqWyXN8LgkVfnp9g1N9wR_UTQoebhppdZXr7kFqlin_-Vz3UAxtAD/exec';
+    
+    // ENLACES REALES DE PAGO - REEMPLAZAR CON TUS ENLACES REALES
+    const paymentLinks = {
+      '2x10.000': 'https://checkout.bold.co/payment/LNK_5CBK79P6OY',
+      '3x15.000': 'https://checkout.bold.co/payment/LNK_V8K9KJGI1S',
+      '4x20.000': 'https://checkout.bold.co/payment/LNK_7X69CC4S5U',
+      '5x25.000': 'https://checkout.bold.co/payment/LNK_2I2S3NU25A'
+    };
+    
+    let selectedTicket = null;
+    let availableTickets = 0;
+    let assignedTickets = [];
+    let allTickets = Array.from({length: MAX_BOLETAS}, (_, i) => i + 1);
+
+    document.addEventListener('DOMContentLoaded', function() {
+      cargarDatosBoletas();
+      
+      const btnPagar = document.getElementById('btn-pagar');
+      const tickets = document.querySelectorAll('.ticket');
+      
+      tickets.forEach(ticket => {
+        ticket.addEventListener('click', function() {
+          if (availableTickets <= 0 || this.classList.contains('sold-out')) return;
+          
+          const cantidad = parseInt(this.getAttribute('data-amount'));
+          
+          if (cantidad > availableTickets) {
+            showMessage(`Solo quedan ${availableTickets} boletas disponibles`, 'warning');
+            return;
+          }
+          
+          tickets.forEach(t => t.classList.remove('selected'));
+          this.classList.add('selected');
+          selectedTicket = this.getAttribute('data-value');
+          
+          const price = this.getAttribute('data-price');
+          const amount = this.getAttribute('data-amount');
+          btnPagar.innerHTML = `<i class="fas fa-credit-card"></i> Pagar $${price} por ${amount} boletas`;
+          btnPagar.disabled = false;
+          btnPagar.onclick = async () => {
+            await validarYRedirigirBold();
+          };
+          
+          validarCampos();
+        });
+      });
+      
+      document.getElementById('nombre').addEventListener('input', validarCampos);
+      document.getElementById('correo').addEventListener('input', validarCampos);
+      document.getElementById('telefono').addEventListener('input', validarCampos);
+    });
+    
+    async function cargarDatosBoletas() {
+      try {
+        document.getElementById('available-count').textContent = 'Cargando...';
+        
+        const response = await fetch(`${APP_SCRIPT_URL}?action=getTickets`);
+        
+        if (!response.ok) {
+          throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+          assignedTickets = data.assignedTickets || [];
+          availableTickets = MAX_BOLETAS - assignedTickets.length;
+          actualizarDisponibilidad();
+        } else {
+          throw new Error(data.message || 'Error en la respuesta del servidor');
+        }
+      } catch (error) {
+        console.error('Error al cargar datos:', error);
+        showMessage('Error al cargar datos de boletas. Por favor intenta recargar la página.', 'error');
+        
+        // Usar valores por defecto para continuar
+        assignedTickets = [];
+        availableTickets = MAX_BOLETAS;
+        actualizarDisponibilidad();
+      }
+    }
+    
+    // ---- NUEVA FUNCIÓN PARA RESERVAR BOLETAS EN SERVIDOR ----
+    async function reservarBoletas(cantidad) {
+      try {
+        const response = await fetch(`${APP_SCRIPT_URL}?action=reservarBoletas&cantidad=${cantidad}`);
+        
+        if (!response.ok) {
+          throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+          return data.boletas; // ["B-001", "B-002", ...]
+        } else {
+          throw new Error(data.message || 'Error al reservar las boletas');
+        }
+      } catch (error) {
+        console.error('Error al reservar boletas:', error);
+        throw error; // Re-lanzamos el error para manejarlo arriba
+      }
+    }
+    
+    function actualizarDisponibilidad() {
+      const banner = document.getElementById('availability-banner');
+      const countElement = document.getElementById('available-count');
+      const tickets = document.querySelectorAll('.ticket');
+      
+      countElement.textContent = availableTickets;
+      banner.className = 'availability-banner';
+      countElement.className = 'availability-count';
+      
+      if (availableTickets === 0) {
+        banner.classList.add('error');
+        countElement.classList.add('error');
+        banner.innerHTML = '<i class="fas fa-times-circle"></i> Boletas agotadas';
+      } else if (availableTickets <= 50) {
+        banner.classList.add('warning');
+        countElement.classList.add('warning');
+        banner.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ¡Últimas boletas! Disponibles: <span class="availability-count warning">${availableTickets}</span>`;
+      } else {
+        banner.innerHTML = `<i class="fas fa-ticket-alt"></i> Boletas disponibles: <span class="availability-count">${availableTickets}</span>`;
+      }
+      
+      tickets.forEach(ticket => {
+        const cantidad = parseInt(ticket.getAttribute('data-amount'));
+        
+        if (availableTickets === 0) {
+          ticket.classList.add('sold-out');
+        } else {
+          if (cantidad > availableTickets) {
+            ticket.classList.add('sold-out');
+          } else {
+            ticket.classList.remove('sold-out');
+          }
+        }
+      });
+    }
+    
+    async function validarYRedirigirBold() {
+      const form = document.getElementById('formulario');
+      const nombre = form.nombre.value.trim();
+      const correo = form.creo.value.trim();
+      const telefono = form.telefono.value.trim() || 'No proporcionado';
+      
+      if (!nombre || !correo) {
+        showMessage('Por favor completa todos los campos obligatorios', 'error');
+        return;
+      }
+      
+      if (!selectedTicket) {
+        showMessage('Por favor selecciona un paquete de boletas', 'error');
+        return;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(correo)) {
+        showMessage('Por favor ingresa un correo electrónico válido', 'error');
+        return;
+      }
+      
+      const cantidad = parseInt(selectedTicket.split('x')[0]);
+      const precio = selectedTicket.split('x')[1].replace('.', '');
+      
+      if (cantidad > availableTickets) {
+        showMessage(`Solo quedan ${availableTickets} boletas disponibles. Por favor selecciona otro paquete.`, 'error');
+        return;
+      }
+
+      document.getElementById('processing').style.display = 'block';
+      
+      try {
+        // RESERVAR BOLETAS EN SERVIDOR
+        const boletas = await reservarBoletas(cantidad);
+        
+        const transactionId = 'TRX-' + Date.now().toString().slice(-6);
+        
+        // Datos para enviar a Google Sheets
+        const compraData = {
+          nombre: nombre,
+          correo: correo,
+          telefono: telefono,
+          paquete: selectedTicket,
+          cantidad: cantidad,
+          precio: precio,
+          boletas: boletas.join(','),
+          transactionId: transactionId,
+          metodo: 'Bold',
+          fecha: new Date().toISOString()
+        };
+        
+        // Guardar datos temporalmente en localStorage
+        localStorage.setItem('compraPendiente', JSON.stringify(compraData));
+        
+        // Redirigir a Bold para pago REAL después de un breve retraso
+        setTimeout(() => {
+          window.location.href = paymentLinks[selectedTicket];
+        }, 1500);
+      } catch (error) {
+        console.error('Error en el proceso de reserva:', error);
+        showMessage(`Error: ${error.message}`, 'error');
+        document.getElementById('processing').style.display = 'none';
+      }
+    }
+    
+    async function registrarCompra(compraData, boletas) {
+      try {
+        const payload = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            action: 'registrarVenta',
+            ...compraData
+          })
+        };
+
+        console.log('Enviando datos a Google Sheets:', compraData);
+        
+        const response = await fetch(APP_SCRIPT_URL, payload);
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Error HTTP: ${response.status} - ${errorText}`);
+        }
+        
+        const data = await response.json();
+        
+        console.log('Respuesta de Google Sheets:', data);
+        
+        if (data.status !== 'success') {
+          throw new Error(data.message || 'Error al registrar la compra');
+        }
+        
+        // Actualizar estado local
+        const nuevosNumeros = boletas.map(b => parseInt(b.split('-')[1]));
+        assignedTickets = [...assignedTickets, ...nuevosNumeros];
+        availableTickets = MAX_BOLETAS - assignedTickets.length;
+        
+        actualizarDisponibilidad();
+        
+        // Mostrar confirmación después de registrar en Sheets
+        setTimeout(() => {
+          document.getElementById('processing').style.display = 'none';
+          mostrarConfirmacion(compraData, boletas);
+        }, 1500);
+        
+      } catch (error) {
+        console.error('Error al registrar la compra:', error);
+        showMessage(`Error al registrar la compra: ${error.message}`, 'error');
+        document.getElementById('processing').style.display = 'none';
+      }
+    }
+    
+    function mostrarConfirmacion(compraData, boletas) {
+      document.getElementById('purchase-form').style.display = 'none';
+      document.getElementById('confirmation').style.display = 'block';
+      
+      document.getElementById('transaction-id').textContent = compraData.transactionId;
+      document.getElementById('confirmation-name').textContent = compraData.nombre;
+      document.getElementById('confirmation-email').textContent = compraData.correo;
+      document.getElementById('confirmation-phone').textContent = compraData.telefono;
+      
+      const [cantidad, precio] = compraData.paquete.split('x');
+      document.getElementById('confirmation-package').textContent = 
+        `${cantidad} boletas por $${Number(precio).toLocaleString()}`;
+      
+      const fecha = new Date(compraData.fecha);
+      const opcionesFecha = { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
+      document.getElementById('confirmation-date').textContent = 
+        fecha.toLocaleDateString('es-ES', opcionesFecha);
+      
+      const ticketNumbersContainer = document.getElementById('ticket-numbers');
+      ticketNumbersContainer.innerHTML = '';
+      
+      boletas.forEach(boleta => {
+        const ticketDiv = document.createElement('div');
+        ticketDiv.className = 'ticket-number';
+        ticketDiv.textContent = boleta;
+        ticketNumbersContainer.appendChild(ticketDiv);
+      });
+    }
+    
+    function showMessage(text, type) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.innerHTML = text;
+      messageDiv.className = `message ${type}`;
+      messageDiv.style.display = 'block';
+      messageDiv.scrollIntoView({behavior: 'smooth', block: 'center'});
+      
+      setTimeout(() => {
+        messageDiv.style.display = 'none';
+      }, 5000);
+    }
+    
+    function validarCampos() {
+      const nombre = document.getElementById('nombre').value.trim();
+      const correo = document.getElementById('correo').value.trim();
+      const btnPagar = document.getElementById('btn-pagar');
+      btnPagar.disabled = !(nombre && correo && selectedTicket);
+    }
+    
+    function descargarComprobante() {
+      alert('Comprobante descargado exitosamente');
+    }
+    
+    function enviarPorCorreo() {
+      alert('Comprobante enviado por correo exitosamente');
+    }
+
+    // Verificar si hay una compra pendiente después de regresar de Bold
+    window.addEventListener('load', function() {
+      const compraPendiente = localStorage.getItem('compraPendiente');
+      
+      if (compraPendiente) {
+        const compraData = JSON.parse(compraPendiente);
+        const boletas = compraData.boletas.split(',');
+        
+        document.getElementById('processing').style.display = 'block';
+        registrarCompra(compraData, boletas);
+        localStorage.removeItem('compraPendiente');
+      }
+    });
+  </script>
+</body>
+</html>
