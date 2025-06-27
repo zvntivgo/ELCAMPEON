@@ -61,20 +61,16 @@
     }
     
     .logo {
-      height: 140px;
-      width: auto;
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      background: linear-gradient(135deg, #0071e3, #004e9e);
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: bold;
-      font-size: 24px;
-      padding: 10px;
-      box-shadow: 0 4px 12px rgba(0, 113, 227, 0.25);
-    }
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  width: auto;
+}
     
     .logo:hover {
       transform: scale(1.05);
@@ -738,11 +734,12 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <header class="header">
-      <div class="logo-container">
-        <div class="logo">logo_el_campeon.png</div>
-      </div>
+  <header class="header">
+  <div class="logo-container">
+    <div class="logo">
+      <img src="logo_el_campeon.png" alt="El Campeón BMX" style="height: 120px; width: auto; display: block;">
+    </div>
+  </div>
       <h1>Compra de Boletas</h1>
       <p class="subtitle">Completa tus datos y paga fácilmente con Bold</p>
       
