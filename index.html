@@ -581,54 +581,91 @@
       box-shadow: 0 6px 15px rgba(0, 113, 227, 0.4);
     }
     
-    .availability-banner {
-      background: #0071E3(7, 7, 7, 0.15);
-      border: 1px solid #0071E3(108, 108, 108, 0.3);
-      border-radius: 14px;
-      padding: 15px;
-      text-align: center;
-      margin: 15px 0;
-      font-size: 18px;
-      font-weight: 500;
-      color: #0071E3(255, 255, 255, 0.067)(--text);
-    }
-    
-    .availability-banner.warning {
-      background: rgba(255, 149, 0, 0.15);
-      border: 1px solid rgba(255, 149, 0, 0.3);
-    }
-    
-    .availability-banner.error {
-      background: rgba(255, 59, 48, 0.15);
-      border: 1px solid rgba(255, 59, 48, 0.3);
-    }
-    
-    .availability-count {
-      font-weight: 800;
-      font-size: 24px;
-      color: var(--success);
-      margin: 0 5px;
-    }
-    
-    .availability-count.warning {
-      color: var(--warning);
-    }
-    
-    .availability-count.error {
-      color: var(--error);
-    }
-    
-    .status-indicator {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 10px;
-      font-size: 14px;
-      padding: 5px 15px;
-      border-radius: 20px;
-      background: rgba(0, 113, 227, 0.1);
-      color: var(--primary);
-    }
+   .availability-banner {
+  background: rgba(245, 245, 247, 0.95); /* Fondo sutil similar a Apple */
+  border: 1px solid rgba(210, 210, 215, 0.8); /* Borde sutil */
+  border-radius: 14px;
+  padding: 18px 25px; /* Mayor padding horizontal */
+  text-align: center;
+  margin: 20px 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Sombra suave */
+  backdrop-filter: blur(10px); /* Efecto vidrio esmerilado */
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.availability-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,255,255,0.2));
+  z-index: -1;
+}
+
+.availability-banner.warning {
+  background: rgba(255, 204, 0, 0.08); /* Amarillo muy suave */
+  border-color: rgba(255, 204, 0, 0.2);
+  color: #8a6d00; /* Texto dorado oscuro */
+}
+
+.availability-banner.error {
+  background: rgba(255, 69, 58, 0.08); /* Rojo muy suave */
+  border-color: rgba(255, 69, 58, 0.2);
+  color: #cc0000; /* Texto rojo oscuro */
+}
+
+.availability-count {
+  font-weight: 800;
+  font-size: 24px;
+  color: var(--primary); /* Color principal de Apple */
+  margin: 0 5px;
+  transition: all 0.3s ease;
+}
+
+.availability-banner.warning .availability-count {
+  color: #d97c00; /* Naranja dorado */
+}
+
+.availability-banner.error .availability-count {
+  color: #ff3b30; /* Rojo Apple */
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  background: rgba(0, 113, 227, 0.08); /* Fondo muy sutil */
+  color: var(--primary);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+/* Estados de conexión */
+.connecting .status-indicator {
+  background: rgba(0, 113, 227, 0.08);
+  color: var(--primary);
+}
+
+.connected .status-indicator {
+  background: rgba(52, 199, 89, 0.08);
+  color: var(--success);
+}
+
+.error-status .status-indicator {
+  background: rgba(255, 59, 48, 0.08);
+  color: var(--error);
+}
     
     @media (max-width: 700px) {
       .card {
