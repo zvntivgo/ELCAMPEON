@@ -50,34 +50,42 @@
     
     .header {
       text-align: center;
-      margin: 20px 0 30px;
+      margin: 20px 0 10px;
       padding: 20px 0;
       animation: fadeInDown 0.8s ease;
     }
     
-    .logo-container {
-      margin: 0 auto 0px;
-      display: flex;
-      justify-content: center;
-      animation: bounceIn 1s ease;
-    }
-    
-    .logo {
+    <style>
+.logo-container {
+  margin: 0 auto 10px;
+  display: flex;
+  justify-content: center;
+  animation: bounceIn 1s ease;
+}
+
+.logo {
   padding: 0;
   box-shadow: none;
   transition: all 0.3s ease;
+  background: transparent; /* Fondo transparente */
+  border: none; /* Sin borde */
+  box-shadow: none; /* Sin sombra */
+  width: auto; /* Ancho automático */
+  height: auto; /* Altura automática */
 }
-    
-    .logo img {
-      height: 300px;
-      width: auto;
-      display: block;
-      border-radius: 0%;
-    }
-    
-    .logo:hover {
-      transform: scale(1.05) rotate(5deg);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+
+.logo img {
+  height: 180px; /* Logo más grande */
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15)); /* Sutil sombra para profundidad */
+}
+
+.logo:hover {
+  transform: scale(1.05) rotate(5deg);
+  box-shadow: none; /* Sin sombra en hover */
+}
+</style>
     }
     
     h1 {
@@ -354,59 +362,37 @@
       opacity: 0.9;
     }
     
-    footer {
-      text-align: center;
-      padding: 40px 0 20px;
-      color: #1D1D1F(255, 255, 255, 0.8);
-      font-size: 15px;
-      margin-top: auto;
-      font-weight: 400;
-    }
-    
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-bottom: 25px;
-      flex-wrap: wrap;
-    }
-    
-    .footer-links a {
-      color: #1D1D1F;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.2s;
-      font-size: 16px;
-      position: relative;
-      padding: 5px 0;
-    }
-    
-    .footer-links a:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: white;
-      transition: width 0.3s ease;
-    }
-    
-    .footer-links a:hover {
-      color: white;
-    }
-    
-    .footer-links a:hover:after {
-      width: 100%;
-    }
-    
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-      margin-top: 50px;
-    }
-    
+<style>
+/* Ajustes para el footer */
+footer {
+  text-align: center;
+  padding: 30px 0 20px; /* Reducción de padding superior */
+  color: #1D1D1F;
+  font-size: 15px;
+  margin-top: auto;
+  font-weight: 400;
+  position: relative;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 20px; /* Espacio entre iconos y enlaces */
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 15px; /* Espacio entre enlaces y copyright */
+  flex-wrap: wrap;
+  padding-top: 10px;
+  border-top: 1px solid var(--border); /* Línea divisoria */
+  padding-top: 15px;
+  margin-top: 15px;
+}
+</style>
     .social-icons a {
       display: flex;
       align-items: center;
@@ -945,19 +931,21 @@
       </div>
     </section>
 
-    <footer>
-      <div class="footer-links">
-        <a href="#">Términos y condiciones</a>
-        <a href="#">Política de privacidad</a>
-        <a href="#">Contacto</a>
-      </div>
-      <div class="social-icons">
-        <a href="https://www.facebook.com/profile.php?id=100069034332083"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.instagram.com/elcampeonbicicletas/"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-whatsapp"></i></a>
-      </div>
-      <p>© 2025 El Campeón Bicicletas. Todos los derechos reservados.</p>
-    </footer>
+   <footer>
+  <div class="social-icons">
+    <a href="https://www.facebook.com/profile.php?id=100069034332083"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.instagram.com/elcampeonbicicletas/"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-whatsapp"></i></a>
+  </div>
+  
+  <div class="footer-links">
+    <a href="#">Términos y condiciones</a>
+    <a href="#">Política de privacidad</a>
+    <a href="#">Contacto</a>
+  </div>
+  
+  <p>© 2025 El Campeón Bicicletas. Todos los derechos reservados.</p>
+</footer>
   </div>
 
   <script>
