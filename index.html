@@ -598,16 +598,7 @@
   overflow: hidden;
 }
 
-.availability-banner::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,255,255,0.2));
-  z-index: -1;
-}
+
 
 .availability-banner.warning {
   background: rgba(255, 204, 0, 0.08); /* Amarillo muy suave */
@@ -624,7 +615,7 @@
 .availability-count {
   font-weight: 800;
   font-size: 24px;
-  color: var(--primary); /* Color principal de Apple */
+  color: #fff; /* Color principal de Apple */
   margin: 0 5px;
   transition: all 0.3s ease;
 }
