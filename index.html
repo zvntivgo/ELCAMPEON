@@ -1201,70 +1201,58 @@
     
     // Validar y redirigir a Bold
     async function validarYRedirigirBold() {
-      const form = document.getElementById('formulario');
-      const nombre = form.nombre.value.trim();
-      const correo = form.correo.value.trim();
-      const telefono = form.telefono.value.trim() || 'No proporcionado';
-      
-      if (!nombre || !correo) {
-        showMessage('Por favor completa todos los campos obligatorios', 'error');
-        return;
-      }
-      
-      if (!selectedTicket) {
-        showMessage('Por favor selecciona un paquete de boletas', 'error');
-        return;
-      }
+    const form = document.getElementById('formulario');
+    const nombre = form.nombre.value.trim();
+    const correo = form.correo.value.trim();
+    const telefono = form.telefono.value.trim() || 'No proporcionado';
 
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(correo)) {
-        showMessage('Por favor ingresa un correo electrónico válido', 'error');
+    // --- Validación de campos ---
+    if (!nombre || !correo || !selectedTicket) {
+        showMessage('Por favor completa tu nombre, correo y selecciona un paquete de boletas.', 'error');
         return;
-      }
-      
-      const cantidad = parseInt(selectedTicket.split('x')[0]);
-      const precio = selectedTicket.split('x')[1].replace('.', '');
-      
-      if (cantidad > availableTickets) {
-        showMessage(`Solo quedan ${availableTickets} boletas disponibles. Por favor selecciona otro paquete.`, 'error');
-        return;
-      }
-
-      document.getElementById('processing').style.display = 'block';
-      
-      try {
-        // RESERVAR BOLETAS EN SERVIDOR
-        const boletas = await reservarBoletas(cantidad);
-        
-        const transactionId = 'TRX-' + Date.now().toString().slice(-6);
-        
-        // Datos para enviar a Google Sheets
-        const compraData = {
-          nombre: nombre,
-          correo: correo,
-          telefono: telefono,
-          paquete: selectedTicket,
-          cantidad: cantidad,
-          precio: precio,
-          boletas: boletas.join(','),
-          transactionId: transactionId,
-          metodo: 'Bold',
-          fecha: new Date().toISOString()
-        };
-        
-        // Guardar datos temporalmente en localStorage
-        localStorage.setItem('compraPendiente', JSON.stringify(compraData));
-        
-        // Redirigir a Bold para pago REAL después de un breve retraso
-        setTimeout(() => {
-          window.location.href = paymentLinks[selectedTicket];
-        }, 1500);
-      } catch (error) {
-        console.error('Error en el proceso de reserva:', error);
-        showMessage(`Error: ${error.message}`, 'error');
-        document.getElementById('processing').style.display = 'none';
-      }
     }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(correo)) {
+        showMessage('Por favor ingresa un correo electrónico válido.', 'error');
+        return;
+    }
+    const cantidad = parseInt(selectedTicket.split('x')[0]);
+    if (cantidad > availableTickets) {
+        showMessage(`Lo sentimos, solo quedan ${availableTickets} boletas. Por favor selecciona un paquete más pequeño.`, 'error');
+        cargarDatosBoletas();
+        return;
+    }
+
+    // --- LÓGICA CORREGIDA ---
+
+    // 1. Mostrar animación de procesamiento
+    document.getElementById('processing').style.display = 'block';
+    document.querySelector('.card').style.display = 'none';
+
+    // 2. Guardar datos de la compra en localStorage ANTES de redirigir.
+    const compraData = {
+        nombre,
+        correo,
+        telefono,
+        paquete: selectedTicket,
+        cantidad,
+        precio: selectedTicket.split('x')[1].replace('.', ''),
+        fecha: new Date().toISOString()
+    };
+    localStorage.setItem('compraPendiente', JSON.stringify(compraData));
+
+    // 3. Redirigir a Bold para el pago.
+    setTimeout(() => {
+        const boldLink = paymentLinks[selectedTicket];
+        if (boldLink) {
+            window.location.href = boldLink;
+        } else {
+            showMessage('Error: No se encontró un link de pago para el paquete seleccionado.', 'error');
+            document.getElementById('processing').style.display = 'none';
+            document.querySelector('.card').style.display = 'block';
+        }
+    }, 1500);
+}
     
     // Registrar compra en Google Sheets
     async function registrarCompra(compraData, boletas) {
