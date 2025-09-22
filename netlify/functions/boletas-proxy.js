@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 
 exports.handler = async (event) => {
   // URL de tu Google Apps Script (¡REEMPLAZA CON TU URL REAL!)
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwNnRcJAwj6M59tb7WQ2LtusGyOCF3tF-mJvT_oQpUAq-ApXqZzhsb8JPB-UCOxapyB/exec';
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwK2atZNd_oiUjyp3mUNETaxvWjRq7qEyYeOo-gdOk67SlORAmImCHIRzxS3lVF5hDQ/exec';
   
   try {
     const options = {
